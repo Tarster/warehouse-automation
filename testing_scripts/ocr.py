@@ -5,7 +5,7 @@ from easyocr import Reader
 
 easyreader = Reader(['en'], gpu=True, model_storage_directory='/Users/karanrnair/Desktop/XODE/AtlanTech AI Challenge/easyocrmodels')
 
-image = cv2.imread(r'/Users/karanrnair/XODE/AtlanTech AI Challenge/t1.jpeg')
+image = cv2.imread(r'warehouse-automation/test_1.png')
 
 ocrdimage = easyreader.readtext(image, paragraph=True, decoder='wordbeamsearch',
                                 width_ths=2.0, height_ths=0.2)
