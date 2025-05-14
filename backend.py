@@ -59,8 +59,11 @@ class LabelDetector():
             try:
                 # Extract the relevant data from the JSON response
                 for item in json_response[0].keys():
-                    if item in ['partCode', 'lot']:
-                        final_dict[item] = json_response[0][item]
+                    if item in ['partCode', 'lot', 'onHand']:
+                        if item == 'onHand':
+                            final_dict['quantity'] = f"{int(json_response[0][item])}"
+                        else:
+                            final_dict[item] = json_response[0][item]
                 return final_dict
             except (KeyError, IndexError) as e:
                 print(f"Error extracting data from response: {e}")
@@ -161,12 +164,13 @@ class LabelDetector():
         for key, value in self.api_dict.items():
             if key.lower() in ['partcode', 'lot', 'quantity']:
                 # Compare the values
+
                 if comparison_dict[key] == value:
                     display_list.append(f"✅ {key}: {value} (Match with OCR result)")    
                 else:
                     if caller == 'paddle':
                         return "mismatch"
-                    display_list(f"❌ {key}: {value} (Mismatch with OCR result)")
+                    display_list.append(f"❌ {key}: {value} (Mismatch with OCR result)")
         
         return display_list
             
